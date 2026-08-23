@@ -7,6 +7,7 @@ extern "C" {
 #include "src/lua/lua.h"
 #include "src/lua/lualib.h"
 #include "src/lua/lauxlib.h"
+#include "src/lua/lstate.h"
 }
 extern "C" void cydosOpenLibs(lua_State *L);
 #include "mod_config.h"
@@ -70,10 +71,14 @@ static int l_delay(lua_State *L) {
       if (g_hasTouch && g_lua) {
         g_lastYield = millis();
         lua_getglobal(g_lua, "onTouch");
-        lua_pushinteger(g_lua, ev.type);
-        lua_pushinteger(g_lua, ev.x);
-        lua_pushinteger(g_lua, ev.y);
-        if (lua_pcall(g_lua, 3, 0, 0) != 0) lua_pop(g_lua, 1);
+        if (!lua_isfunction(g_lua, -1)) {
+          lua_pop(g_lua, 1);
+        } else {
+          lua_pushinteger(g_lua, ev.type);
+          lua_pushinteger(g_lua, ev.x);
+          lua_pushinteger(g_lua, ev.y);
+          if (lua_pcall(g_lua, 3, 0, 0) != 0) lua_pop(g_lua, 1);
+        }
       }
     }
     vTaskDelay(2);
@@ -112,6 +117,13 @@ static int l_rect(lua_State *L) {
 static int l_fillRect(lua_State *L) {
   gfx->fillRect((int16_t)luaL_checkinteger(L, 1), (int16_t)luaL_checkinteger(L, 2), (int16_t)luaL_checkinteger(L, 3),
                 (int16_t)luaL_checkinteger(L, 4), (uint16_t)luaL_checkinteger(L, 5));
+  return 0;
+}
+
+static int l_fillCircle(lua_State *L) {
+  int x = (int)luaL_checkinteger(L, 1), y = (int)luaL_checkinteger(L, 2), r = (int)luaL_checkinteger(L, 3);
+  uint16_t c = (uint16_t)luaL_checkinteger(L, 4);
+  gfx->fillCircle(x, y, r, c);
   return 0;
 }
 
@@ -481,6 +493,7 @@ static void regAll(lua_State *L) {
   LC(rect, l_rect);
   LC(fillRect, l_fillRect);
   LC(circle, l_circle);
+  LC(fillCircle, l_fillCircle);
   LC(text, l_text);
   LC(textW, l_textW);
   LC(rgb565, l_rgb565);
@@ -577,12 +590,15 @@ static void luaDispatchEvent(const TouchEvent &e) {
   lua_pushinteger(g_lua, e.type);
   lua_pushinteger(g_lua, e.x);
   lua_pushinteger(g_lua, e.y);
-  if (lua_pcall(g_lua, 3, 0, 0) != 0 && !luaIsExitError(g_lua)) {
-    const char *msg = lua_tostring(g_lua, -1);
-    shellShowAppError(g_appName, msg ? msg : "onTouch error");
-    g_exitReq = true;
+  bool failed = (lua_pcall(g_lua, 3, 0, 0) != 0);
+  if (failed) {
+    if (!luaIsExitError(g_lua)) {
+      const char *msg = lua_tostring(g_lua, -1);
+      shellShowAppError(g_appName, msg ? msg : "onTouch error");
+      g_exitReq = true;
+    }
+    lua_pop(g_lua, 1);
   }
-  lua_pop(g_lua, 1);
 }
 
 static void luaCallLoop(uint32_t dt) {
@@ -601,6 +617,7 @@ static void luaCallLoop(uint32_t dt) {
       shellShowAppError(g_appName, msg ? msg : "loop error");
       g_exitReq = true;
     }
+    lua_pop(g_lua, 1);
   }
 }
 
@@ -613,6 +630,16 @@ static void stopLuaApp() {
   g_hasLoop = g_hasTouch = false;
   g_exitReq = false;
   noTone(PIN_BUZZER);
+}
+
+static int luaPanic(lua_State *L) {
+  const char *msg = lua_tostring(L, -1);
+  Serial.printf("LUA PANIC: %s\n", msg ? msg : "(non-string error)");
+  luaL_traceback(L, L, msg, 0);
+  const char *tb = lua_tostring(L, -1);
+  Serial.println(tb ? tb : "(no traceback)");
+  Serial.flush();
+  return 0;
 }
 
 static bool startLuaApp(const String &dir, const String &displayName) {
@@ -635,6 +662,8 @@ static bool startLuaApp(const String &dir, const String &displayName) {
     return false;
   }
   g_lua = L;
+  lua_atpanic(L, luaPanic);
+  lua_pushboolean(L, 1);
   cydosOpenLibs(L);
   regAll(L);
   lua_sethook(L, hookWatchdog, LUA_MASKCOUNT, 100000);

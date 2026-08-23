@@ -3,7 +3,7 @@
 
 struct EmbedFile { const char *path; const uint8_t *data; uint32_t len; };
 
-static const uint8_t file0[] PROGMEM = {
+static const uint8_t sdfile0[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 67, 79, 76, 83, 44, 32, 82, 79, 87, 83, 32, 61, 32, 56,
   44, 32, 52, 10, 108, 111, 99, 97, 108, 32, 66, 87, 44, 32, 66, 72, 32, 61, 32, 51,
   56, 44, 32, 49, 52, 10, 108, 111, 99, 97, 108, 32, 79, 88, 32, 61, 32, 40, 83, 67,
@@ -180,11 +180,11 @@ static const uint8_t file0[] PROGMEM = {
   76, 79, 87, 41, 10, 32, 32, 100, 101, 108, 97, 121, 40, 56, 41, 10, 101, 110, 100, 10,
 };
 
-static const uint8_t file1[] PROGMEM = {
+static const uint8_t sdfile1[] PROGMEM = {
   66, 114, 101, 97, 107, 111, 117, 116, 10,
 };
 
-static const uint8_t file2[] PROGMEM = {
+static const uint8_t sdfile2[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -290,7 +290,7 @@ static const uint8_t file2[] PROGMEM = {
   235, 109, 22, 150, 218, 199, 255, 217,
 };
 
-static const uint8_t file3[] PROGMEM = {
+static const uint8_t sdfile3[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 100, 105, 115, 112, 44, 32, 97, 99, 99, 44, 32, 111, 112, 44,
   32, 102, 114, 101, 115, 104, 10, 108, 111, 99, 97, 108, 32, 107, 101, 121, 115, 32, 61, 32,
   123, 10, 32, 32, 123, 32, 34, 55, 34, 44, 32, 34, 56, 34, 44, 32, 34, 57, 34, 44,
@@ -423,11 +423,11 @@ static const uint8_t file3[] PROGMEM = {
   32, 100, 101, 108, 97, 121, 40, 51, 48, 41, 10, 101, 110, 100, 10,
 };
 
-static const uint8_t file4[] PROGMEM = {
+static const uint8_t sdfile4[] PROGMEM = {
   67, 97, 108, 99, 117, 108, 97, 116, 111, 114, 10,
 };
 
-static const uint8_t file5[] PROGMEM = {
+static const uint8_t sdfile5[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -501,7 +501,7 @@ static const uint8_t file5[] PROGMEM = {
   10, 0, 255, 217,
 };
 
-static const uint8_t file6[] PROGMEM = {
+static const uint8_t sdfile6[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 100, 97, 121, 115, 32, 61, 32, 123, 32, 34, 83, 117, 110, 34,
   44, 32, 34, 77, 111, 110, 34, 44, 32, 34, 84, 117, 101, 34, 44, 32, 34, 87, 101, 100,
   34, 44, 32, 34, 84, 104, 117, 34, 44, 32, 34, 70, 114, 105, 34, 44, 32, 34, 83, 97,
@@ -574,11 +574,11 @@ static const uint8_t file6[] PROGMEM = {
   40, 50, 48, 48, 41, 10, 101, 110, 100, 10,
 };
 
-static const uint8_t file7[] PROGMEM = {
+static const uint8_t sdfile7[] PROGMEM = {
   67, 108, 111, 99, 107, 10,
 };
 
-static const uint8_t file8[] PROGMEM = {
+static const uint8_t sdfile8[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -680,7 +680,7 @@ static const uint8_t file8[] PROGMEM = {
   156, 223, 53, 73, 110, 250, 37, 217, 127, 90, 233, 161, 205, 86, 175, 63, 161, 255, 217,
 };
 
-static const uint8_t file9[] PROGMEM = {
+static const uint8_t sdfile9[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 67, 79, 76, 83, 44, 32, 82, 79, 87, 83, 32, 61, 32, 54,
   44, 32, 51, 10, 108, 111, 99, 97, 108, 32, 65, 87, 44, 32, 65, 72, 44, 32, 65, 71,
   65, 80, 32, 61, 32, 51, 48, 44, 32, 50, 48, 44, 32, 56, 10, 108, 111, 99, 97, 108,
@@ -890,11 +890,11 @@ static const uint8_t file9[] PROGMEM = {
   10, 101, 110, 100, 10,
 };
 
-static const uint8_t file10[] PROGMEM = {
+static const uint8_t sdfile10[] PROGMEM = {
   73, 110, 118, 97, 100, 101, 114, 115, 10,
 };
 
-static const uint8_t file11[] PROGMEM = {
+static const uint8_t sdfile11[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -969,7 +969,7 @@ static const uint8_t file11[] PROGMEM = {
   183, 222, 241, 86, 95, 202, 173, 163, 109, 158, 53, 69, 20, 87, 146, 126, 132, 127, 255, 217,
 };
 
-static const uint8_t file12[] PROGMEM = {
+static const uint8_t sdfile12[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 112, 97, 108, 101, 116, 116, 101, 32, 61, 32, 123, 10, 32, 32,
   67, 79, 76, 79, 82, 46, 87, 72, 73, 84, 69, 44, 32, 67, 79, 76, 79, 82, 46, 89,
   69, 76, 76, 79, 87, 44, 32, 67, 79, 76, 79, 82, 46, 79, 82, 65, 78, 71, 69, 44,
@@ -1053,11 +1053,11 @@ static const uint8_t file12[] PROGMEM = {
   110, 100, 10,
 };
 
-static const uint8_t file13[] PROGMEM = {
+static const uint8_t sdfile13[] PROGMEM = {
   80, 97, 105, 110, 116, 10,
 };
 
-static const uint8_t file14[] PROGMEM = {
+static const uint8_t sdfile14[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -1165,7 +1165,7 @@ static const uint8_t file14[] PROGMEM = {
   255, 0, 255, 217,
 };
 
-static const uint8_t file15[] PROGMEM = {
+static const uint8_t sdfile15[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 80, 87, 44, 32, 80, 72, 32, 61, 32, 54, 44, 32, 52, 52,
   10, 108, 111, 99, 97, 108, 32, 87, 73, 78, 32, 61, 32, 53, 10, 10, 108, 111, 99, 97,
   108, 32, 112, 121, 44, 32, 97, 121, 44, 32, 98, 120, 44, 32, 98, 121, 44, 32, 98, 118,
@@ -1338,11 +1338,11 @@ static const uint8_t file15[] PROGMEM = {
   101, 108, 97, 121, 40, 53, 48, 48, 41, 10, 32, 32, 101, 110, 100, 10, 101, 110, 100, 10,
 };
 
-static const uint8_t file16[] PROGMEM = {
+static const uint8_t sdfile16[] PROGMEM = {
   80, 111, 110, 103, 10,
 };
 
-static const uint8_t file17[] PROGMEM = {
+static const uint8_t sdfile17[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -1415,7 +1415,7 @@ static const uint8_t file17[] PROGMEM = {
   160, 31, 255, 217,
 };
 
-static const uint8_t file18[] PROGMEM = {
+static const uint8_t sdfile18[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 115, 116, 97, 116, 101, 32, 61, 32, 34, 109, 97, 105, 110, 34,
   10, 108, 111, 99, 97, 108, 32, 109, 115, 103, 32, 61, 32, 34, 34, 10, 108, 111, 99, 97,
   108, 32, 109, 115, 103, 84, 32, 61, 32, 48, 10, 108, 111, 99, 97, 108, 32, 110, 101, 116,
@@ -1759,11 +1759,11 @@ static const uint8_t file18[] PROGMEM = {
   32, 100, 101, 108, 97, 121, 40, 51, 48, 41, 10, 101, 110, 100, 10,
 };
 
-static const uint8_t file19[] PROGMEM = {
+static const uint8_t sdfile19[] PROGMEM = {
   83, 101, 116, 116, 105, 110, 103, 115, 10,
 };
 
-static const uint8_t file20[] PROGMEM = {
+static const uint8_t sdfile20[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -1866,7 +1866,7 @@ static const uint8_t file20[] PROGMEM = {
   124, 173, 43, 38, 188, 146, 217, 31, 255, 217,
 };
 
-static const uint8_t file21[] PROGMEM = {
+static const uint8_t sdfile21[] PROGMEM = {
   108, 111, 99, 97, 108, 32, 67, 87, 44, 32, 67, 72, 32, 61, 32, 49, 50, 44, 32, 49,
   50, 10, 108, 111, 99, 97, 108, 32, 67, 79, 76, 83, 44, 32, 82, 79, 87, 83, 32, 61,
   32, 50, 54, 44, 32, 49, 51, 10, 108, 111, 99, 97, 108, 32, 79, 88, 44, 32, 79, 89,
@@ -2049,11 +2049,11 @@ static const uint8_t file21[] PROGMEM = {
   32, 32, 100, 101, 108, 97, 121, 40, 49, 48, 41, 10, 101, 110, 100, 10,
 };
 
-static const uint8_t file22[] PROGMEM = {
+static const uint8_t sdfile22[] PROGMEM = {
   83, 110, 97, 107, 101, 10,
 };
 
-static const uint8_t file23[] PROGMEM = {
+static const uint8_t sdfile23[] PROGMEM = {
   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
   255, 219, 0, 67, 0, 4, 3, 3, 3, 3, 2, 4, 3, 3, 3, 4, 4, 4, 5, 6,
   10, 6, 6, 5, 5, 6, 12, 8, 9, 7, 10, 14, 12, 15, 14, 14, 12, 13, 13, 15,
@@ -2123,29 +2123,29 @@ static const uint8_t file23[] PROGMEM = {
 };
 
 static const EmbedFile EMBED_FILES[] = {
-  { "/apps/Breakout/app.lua", file0, 3480 },
-  { "/apps/Breakout/manifest.txt", file1, 9 },
-  { "/apps/Breakout/icon.jpg", file2, 2048 },
-  { "/apps/Calculator/app.lua", file3, 2595 },
-  { "/apps/Calculator/manifest.txt", file4, 11 },
-  { "/apps/Calculator/icon.jpg", file5, 1404 },
-  { "/apps/Clock/app.lua", file6, 1390 },
-  { "/apps/Clock/manifest.txt", file7, 6 },
-  { "/apps/Clock/icon.jpg", file8, 1979 },
-  { "/apps/Invaders/app.lua", file9, 4125 },
-  { "/apps/Invaders/manifest.txt", file10, 9 },
-  { "/apps/Invaders/icon.jpg", file11, 1440 },
-  { "/apps/Paint/app.lua", file12, 1603 },
-  { "/apps/Paint/manifest.txt", file13, 6 },
-  { "/apps/Paint/icon.jpg", file14, 2084 },
-  { "/apps/Pong/app.lua", file15, 3400 },
-  { "/apps/Pong/manifest.txt", file16, 5 },
-  { "/apps/Pong/icon.jpg", file17, 1384 },
-  { "/apps/Settings/app.lua", file18, 6815 },
-  { "/apps/Settings/manifest.txt", file19, 9 },
-  { "/apps/Settings/icon.jpg", file20, 1990 },
-  { "/apps/Snake/app.lua", file21, 3596 },
-  { "/apps/Snake/manifest.txt", file22, 6 },
-  { "/apps/Snake/icon.jpg", file23, 1314 },
+  { "/apps/Breakout/app.lua", sdfile0, 3480 },
+  { "/apps/Breakout/manifest.txt", sdfile1, 9 },
+  { "/apps/Breakout/icon.jpg", sdfile2, 2048 },
+  { "/apps/Calculator/app.lua", sdfile3, 2595 },
+  { "/apps/Calculator/manifest.txt", sdfile4, 11 },
+  { "/apps/Calculator/icon.jpg", sdfile5, 1404 },
+  { "/apps/Clock/app.lua", sdfile6, 1390 },
+  { "/apps/Clock/manifest.txt", sdfile7, 6 },
+  { "/apps/Clock/icon.jpg", sdfile8, 1979 },
+  { "/apps/Invaders/app.lua", sdfile9, 4125 },
+  { "/apps/Invaders/manifest.txt", sdfile10, 9 },
+  { "/apps/Invaders/icon.jpg", sdfile11, 1440 },
+  { "/apps/Paint/app.lua", sdfile12, 1603 },
+  { "/apps/Paint/manifest.txt", sdfile13, 6 },
+  { "/apps/Paint/icon.jpg", sdfile14, 2084 },
+  { "/apps/Pong/app.lua", sdfile15, 3400 },
+  { "/apps/Pong/manifest.txt", sdfile16, 5 },
+  { "/apps/Pong/icon.jpg", sdfile17, 1384 },
+  { "/apps/Settings/app.lua", sdfile18, 6815 },
+  { "/apps/Settings/manifest.txt", sdfile19, 9 },
+  { "/apps/Settings/icon.jpg", sdfile20, 1990 },
+  { "/apps/Snake/app.lua", sdfile21, 3596 },
+  { "/apps/Snake/manifest.txt", sdfile22, 6 },
+  { "/apps/Snake/icon.jpg", sdfile23, 1314 },
 };
 #define EMBED_COUNT 24

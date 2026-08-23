@@ -61,9 +61,17 @@ chokes on paths containing spaces (the project lives on a mount with spaces).
 /data/<AppName>/   per-app writable storage (sandboxed)
 ```
 
-If your PC's card reader is broken, flash `firmware/installer/` once: it
-writes the starter apps from the repo onto the card through the CYD itself.
-Then reflash the main firmware.
+If your PC's card reader is broken, no problem: the firmware carries the
+starter pack inside. On first boot (or whenever `/.apps_installed` is missing
+on the card - or when you hold the BOOT button while powering on) CYDOS
+writes all starter apps onto the card through the CYD's own slot and then
+continues to the desktop. One flash sets up everything.
+
+To rebuild the embedded pack after editing `sdcard/apps/`:
+
+```sh
+python3 tools/gen_sdpack.py
+```
 
 ## Making apps
 
@@ -73,7 +81,6 @@ See [HOWTOMAKEAPP.md](HOWTOMAKEAPP.md) for the full Lua API and a template.
 
 ```
 firmware/cydos/      the OS firmware
-firmware/installer/  one-shot SD card populator
 sdcard/apps/         starter app pack (source of truth for the installer)
 scripts/             build + flash helpers
 ```
