@@ -65,6 +65,7 @@ The titlebar X button always works and closes your app.
 | `rect(x,y,w,h,c)` | outline rect |
 | `fillRect(x,y,w,h,c)` | filled rect |
 | `circle(x,y,r,c[,filled])` | circle |
+| `fillCircle(x,y,r,c)` | filled circle |
 | `text(x,y,s,[c],[size])` | draw text (returns width in px); size 1-6 |
 | `textW(s,[size])` | measure text width |
 | `rgb565(r,g,b)` | pack a color |
@@ -75,7 +76,14 @@ The titlebar X button always works and closes your app.
 `COLOR.BLACK WHITE RED GREEN BLUE YELLOW CYAN MAGENTA ORANGE GRAY DGRAY
 LGRAY TEAL NAVY FACE` are available both as `COLOR.X` and as plain globals
 (`WHITE`). All are RGB565 ints you can pass anywhere a color is expected.
+
+`TEAL`, `NAVY` and `FACE` follow the active system theme, so apps that use
+them blend in on every CYDOS version. Hardcoding raw colors makes your app
+look the same everywhere.
 Constants: `SCREEN_W` (320), `SCREEN_H` (240), `TE_PRESS TE_MOVE TE_RELEASE`.
+
+The shell draws a title bar over the top 28 px of the screen while your app
+runs - keep your UI below `y = 30` and it will never fight the chrome.
 
 ### Touch
 
@@ -120,8 +128,9 @@ strings, numbers, booleans, null). Users can open these files from the
 Files app or a card reader to peek at or hand-edit app data.
 
 The system keeps its own human-editable settings file too:
-`/data/Settings/settings.json` (brightness, LED color, wifi ssid...).
-It is applied on boot and re-synced whenever you change settings.
+`/data/Settings/settings.json` (brightness, LED color, `wifi_ssid` and
+`wifi_pass` slots...). It is applied on boot and re-synced whenever you
+change settings - fill in the WiFi lines on a card reader, reboot, done.
 
 ### System - `sys.*`
 
@@ -152,8 +161,9 @@ local body, err = net.get("http://example.com/api")
 `beep(freq,ms)` `millis()` `delay(ms)` `exitApp()`
 Globals: `VERSION`, `APP_NAME`, `APP_DIR` (`/apps/YourApp`), `DATA_DIR`.
 
-Lua is 5.4 with base/table/string/math libraries only - there is intentionally
-no `io`, `os`, `debug` or `package`. Use `fs.*`, `sys.*`, `millis()` instead.
+Lua is 5.5 with base/table/string/math libraries only - there is
+intentionally no `io`, `os`, `debug` or `package`. Use `fs.*`, `sys.*`,
+`millis()` instead.
 
 ## Tips
 
