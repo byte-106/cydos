@@ -176,19 +176,7 @@ static void shellDrawAppChrome() {
   static uint32_t last = 0;
   if (now - last < 250) return;
   last = now;
-  gfx->fillRect(0, 0, SCREEN_W, TITLEBAR_H, C_TITLE);
-  gfx->setTextSize(2);
-  gfx->setTextColor(C_WHITE);
-  String t = g_appName;
-  if (t.length() > 21) t = t.substring(0, 20) + "~";
-  gfx->setCursor(8, 7);
-  gfx->print(t);
-  gfx->fillRect(SCREEN_W - TITLEBAR_H, 2, TITLEBAR_H - 4, TITLEBAR_H - 4, C_FACE);
-  gfx->drawRect(SCREEN_W - TITLEBAR_H, 2, TITLEBAR_H - 4, TITLEBAR_H - 4, C_BLACK);
-  gfx->setTextSize(2);
-  gfx->setTextColor(C_RED);
-  gfx->setCursor(SCREEN_W - TITLEBAR_H + 7, 6);
-  gfx->print("X");
+  drawTitleBar(g_appName.c_str(), true);
 }
 
 static bool shellInterceptTap(const TouchEvent &e) {
@@ -237,8 +225,8 @@ static void runApp(const AppEntry &app) {
 }
 
 static void powerMenu() {
-  drawWindowFrame("Power", 60, 50, 200, 150, true);
-  UiButton sleepB(90, 90, 140, 40, "Sleep"), restB(90, 136, 140, 40, "Restart"), cancelB(90, 182, 140, 40, "Cancel");
+  drawWindowFrame("Power", 60, 30, 200, 186, true);
+  UiButton sleepB(80, 64, 160, 38, "Sleep"), restB(80, 108, 160, 38, "Restart"), cancelB(80, 152, 160, 38, "Cancel");
   sleepB.draw();
   restB.draw();
   cancelB.draw();
@@ -256,7 +244,7 @@ static void powerMenu() {
         sysReboot();
         return;
       }
-      if (cancelB.hit(e.x, e.y) || closeButtonHit(60, 50, 200, e.x, e.y)) return;
+      if (cancelB.hit(e.x, e.y) || closeButtonHit(60, 30, 200, e.x, e.y)) return;
     }
     vTaskDelay(5);
   }
@@ -382,6 +370,7 @@ static void toolEditor(const String &openPath) {
 
   auto renderText = [&]() {
     ensureVisible();
+    drawTitleBar("Editor", true);
     gfx->fillRect(0, textTop, SCREEN_W, visLines * lineH + 4, C_BLACK);
     gfx->setTextSize(1);
     for (int r = 0; r < visLines && topLine + r < (int)lines.size(); r++) {
@@ -444,6 +433,11 @@ static void toolEditor(const String &openPath) {
       if (e.type != TE_PRESS) continue;
       if (e.y < kbY0) {
         teWaitRelease();
+        if (closeButtonHit(0, 0, SCREEN_W, e.x, e.y)) {
+          if (dirty) doSave();
+          exitEditor = true;
+          break;
+        }
         if (inRect(e.x, e.y, 250, 33, 64, 26)) {
           doSave();
           renderText();
@@ -645,7 +639,7 @@ static void toolFiles() {
     String p = path;
     if (p.length() > 26) p = "..." + p.substring(p.length() - 23);
     gfx->print(p);
-    UiButton up(236, 32, 38, 26, "UP"), del(196, 32, 38, 26, "DEL"), ren(156, 32, 38, 26, "REN");
+    UiButton up(277, 32, 38, 26, "UP"), del(237, 32, 38, 26, "DEL"), ren(197, 32, 38, 26, "REN");
     ren.draw();
     del.draw();
     up.draw();
@@ -692,7 +686,7 @@ static void toolFiles() {
       if (e.type != TE_PRESS) continue;
       teWaitRelease();
       if (closeButtonHit(0, 0, SCREEN_W, e.x, e.y)) return;
-      if (inRect(e.x, e.y, 236, toolbarY, 38, 26)) {
+      if (inRect(e.x, e.y, 277, toolbarY, 38, 26)) {
         if (path != "/") {
           int cut = path.lastIndexOf('/', path.length() - 2);
           path = path.substring(0, cut + 1);
@@ -701,7 +695,7 @@ static void toolFiles() {
         }
         goto nextEvt;
       }
-      if (inRect(e.x, e.y, 196, toolbarY, 38, 26)) {
+      if (inRect(e.x, e.y, 237, toolbarY, 38, 26)) {
         if (sel >= 0 && sel < (int)names.size() && names[sel] != "..") {
           String target = path == "/" ? "/" + names[sel] : path + names[sel];
           SD.remove(target);
@@ -711,7 +705,7 @@ static void toolFiles() {
         }
         goto nextEvt;
       }
-      if (inRect(e.x, e.y, 156, toolbarY, 38, 26)) {
+      if (inRect(e.x, e.y, 197, toolbarY, 38, 26)) {
         if (sel >= 0 && sel < (int)names.size() && names[sel] != ".." && names[sel] != "..") {
           String nn;
           if (kbInput("Rename to:", nn, false, 32) && nn.length()) {

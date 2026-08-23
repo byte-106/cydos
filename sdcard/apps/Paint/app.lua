@@ -4,13 +4,13 @@ local palette = {
   COLOR.LGRAY, COLOR.DGRAY, COLOR.BLACK, COLOR.FACE,
 }
 local PW = 25
-local PY = 4
-local CANVAS_Y = 30
+local PY = 31
+local CANVAS_Y = 60
 local curCol
 local lastX, lastY
 
 function drawBar()
-  gfx.fillRect(0, 0, SCREEN_W, 28, COLOR.BLACK)
+  gfx.fillRect(0, 28, SCREEN_W, 30, COLOR.BLACK)
   for i, c in ipairs(palette) do
     local x = (i - 1) * PW
     gfx.fillRect(x + 1, PY + 1, PW - 2, 22, c)
@@ -22,7 +22,7 @@ function drawBar()
     end
   end
   gfx.fillRect(304, PY, 14, 24, COLOR.FACE)
-  gfx.text(306, 8, "C", COLOR.RED, 1)
+  gfx.text(306, 35, "C", COLOR.RED, 1)
 end
 
 function init()
@@ -39,10 +39,10 @@ end
 
 function onTouch(t, x, y)
   if t == TE_PRESS then
-    if y < 28 then
+    if y >= 28 and y < 58 then
       local idx = math.floor(x / PW) + 1
       if x >= 300 then
-        gfx.fillRect(0, 28, SCREEN_W, SCREEN_H - 28, COLOR.WHITE)
+        gfx.fillRect(0, CANVAS_Y, SCREEN_W, SCREEN_H - CANVAS_Y, COLOR.WHITE)
         beep(600, 60)
         return
       end
@@ -56,7 +56,7 @@ function onTouch(t, x, y)
     end
     lastX, lastY = x, y
   elseif t == TE_MOVE then
-    if y < 28 or lastX == nil then return end
+    if y < 58 or lastX == nil then return end
   elseif t == TE_RELEASE then
     lastX, lastY = nil, nil
     return

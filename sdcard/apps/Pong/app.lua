@@ -29,8 +29,8 @@ function draw()
   for yy = 4, SCREEN_H - 4, 16 do
     gfx.fillRect(SCREEN_W / 2 - 1, yy, 2, 8, COLOR.DGRAY)
   end
-  gfx.text(100, 8, tostring(ps), COLOR.WHITE, 2)
-  gfx.text(206, 8, tostring(as_), COLOR.WHITE, 2)
+  gfx.text(100, 32, tostring(ps), COLOR.WHITE, 2)
+  gfx.text(206, 32, tostring(as_), COLOR.WHITE, 2)
   gfx.fillRect(10, math.floor(py), PW, PH, COLOR.WHITE)
   gfx.fillRect(SCREEN_W - 16, math.floor(ay), PW, PH, COLOR.WHITE)
   gfx.fillRect(math.floor(bx) - 3, math.floor(by) - 3, 7, 7, COLOR.YELLOW)
@@ -117,8 +117,8 @@ function loop(dt)
 end
 
 function pointEnd()
-  gfx.text(100, 8, tostring(ps), COLOR.WHITE, 2)
-  gfx.text(206, 8, tostring(as_), COLOR.WHITE, 2)
+  gfx.text(100, 32, tostring(ps), COLOR.WHITE, 2)
+  gfx.text(206, 32, tostring(as_), COLOR.WHITE, 2)
   if ps >= WIN or as_ >= WIN then
     over = true
     if ps >= WIN then msg = "YOU WIN!" else msg = "CPU WINS" end

@@ -11,16 +11,19 @@ function drawClock()
   gfx.cls(COLOR.BLACK)
   local t = net.time()
   if t == nil then
-    gfx.text(160 - math.floor(gfx.textW("NO TIME SYNC", 2) / 2), 80, "NO TIME SYNC", COLOR.ORANGE, 2)
-    gfx.text(160 - math.floor(gfx.textW("Connect WiFi in Settings", 1) / 2), 120, "Connect WiFi in Settings", COLOR.LGRAY, 1)
+    gfx.text(160 - math.floor(gfx.textW("NO TIME SYNC", 2) / 2), 90, "NO TIME SYNC", COLOR.ORANGE, 2)
+    gfx.text(160 - math.floor(gfx.textW("Connect WiFi in Settings", 1) / 2), 126, "Connect WiFi in Settings", COLOR.LGRAY, 1)
     gfx.text(160 - math.floor(gfx.textW(wifi.status(), 1) / 2), 150, wifi.status(), COLOR.DGRAY, 1)
   else
     local hs = pad(t.hour) .. ":" .. pad(t.min)
-    gfx.text(160 - math.floor(gfx.textW(hs, 6) / 2), 60, hs, COLOR.WHITE, 6)
-    gfx.text(160 - math.floor(gfx.textW(":" .. pad(t.sec), 3) / 2) + 150, 96, ":" .. pad(t.sec), COLOR.YELLOW, 3)
+    local ss = ":" .. pad(t.sec)
+    local total = gfx.textW(hs, 6) + 4 + gfx.textW(ss, 3)
+    local x0 = math.floor((SCREEN_W - total) / 2)
+    gfx.text(x0, 48, hs, COLOR.WHITE, 6)
+    gfx.text(x0 + gfx.textW(hs, 6) + 4, 72, ss, COLOR.YELLOW, 3)
     local ds = days[t.wday + 1] .. ", " .. months[t.month] .. " " .. t.day .. " " .. t.year
-    gfx.text(160 - math.floor(gfx.textW(ds, 2) / 2), 170, ds, COLOR.CYAN, 2)
-    gfx.text(8, 224, wifi.ssid(), COLOR.DGRAY, 1)
+    gfx.text(160 - math.floor(gfx.textW(ds, 2) / 2), 156, ds, COLOR.CYAN, 2)
+    gfx.text(8, 226, wifi.ssid(), COLOR.DGRAY, 1)
   end
 end
 

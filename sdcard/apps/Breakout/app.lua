@@ -40,9 +40,8 @@ function init()
 end
 
 function hud()
-  gfx.fillRect(0, 0, SCREEN_W, 18, COLOR.BLACK)
-  gfx.text(8, 4, "SCORE " .. score, COLOR.WHITE, 1)
-  gfx.text(250, 4, "LIVES " .. lives, COLOR.WHITE, 1)
+  gfx.text(8, 31, "SCORE " .. score, COLOR.WHITE, 1)
+  gfx.text(250, 31, "LIVES " .. lives, COLOR.WHITE, 1)
 end
 
 function drawPaddle(newx)

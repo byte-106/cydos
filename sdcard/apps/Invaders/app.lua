@@ -34,8 +34,8 @@ end
 
 function draw()
   gfx.cls(COLOR.BLACK)
-  gfx.text(8, 4, "SCORE " .. score, COLOR.WHITE, 1)
-  gfx.text(250, 4, "LIVES " .. lives, COLOR.WHITE, 1)
+  gfx.text(8, 31, "SCORE " .. score, COLOR.WHITE, 1)
+  gfx.text(250, 31, "LIVES " .. lives, COLOR.WHITE, 1)
   for _, a in ipairs(aliens) do
     local ax = GX + a[1] + astep
     local ay = GY + a[2]

@@ -1,6 +1,6 @@
 local CW, CH = 12, 12
 local COLS, ROWS = 26, 13
-local OX, OY = 4, 4
+local OX, OY = 4, 34
 local CTRL_Y = 164
 
 local snake, dir, food, score, alive, stepMs, acc

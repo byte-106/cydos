@@ -76,8 +76,8 @@ bool kbInput(const char *title, String &out, bool mask, int maxLen = 48) {
       redrawKb = false;
     }
     gfx->fillRect(0, 0, SCREEN_W, kbY0 - 6, C_DESKTOP);
-    drawWindowFrame(title, 4, 8, 312, 60);
-    drawWell(12, 22, 180, 36, C_WHITE);
+    drawWindowFrame(title, 4, 8, 312, 84);
+    drawWell(12, 44, 180, 32, C_WHITE);
     gfx->setTextSize(2);
     gfx->setTextColor(C_BLACK);
     String disp = mask ? "" : out;
@@ -86,10 +86,10 @@ bool kbInput(const char *title, String &out, bool mask, int maxLen = 48) {
       for (int i = 0; i < dots; i++) disp += "*";
     }
     if ((int)disp.length() > 13) disp = disp.substring(disp.length() - 13);
-    gfx->setCursor(16, 32);
+    gfx->setCursor(16, 54);
     gfx->print(disp + "_");
-    UiButton okBtn(204, 24, 52, 34, "OK");
-    UiButton noBtn(262, 24, 46, 34, "X");
+    UiButton okBtn(204, 42, 52, 34, "OK");
+    UiButton noBtn(262, 42, 46, 34, "X");
     okBtn.draw();
     noBtn.draw();
     touchPoll();

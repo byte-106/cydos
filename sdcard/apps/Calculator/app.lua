@@ -5,15 +5,15 @@ local keys = {
   { "1", "2", "3", "-" },
   { "C", "0", "=", "+" },
 }
-local KX, KY = 8, 60
-local KW, KH, GAP = 74, 40, 3
+local KX, KY = 8, 76
+local KW, KH, GAP = 74, 36, 3
 
 function drawDisp()
-  gfx.fillRect(8, 10, 304, 42, COLOR.WHITE)
-  gfx.rect(8, 10, 304, 42, COLOR.DGRAY)
+  gfx.fillRect(8, 34, 304, 36, COLOR.WHITE)
+  gfx.rect(8, 34, 304, 36, COLOR.DGRAY)
   local s = disp
   if #s > 20 then s = string.sub(s, #s - 19) end
-  gfx.text(300 - gfx.textW(s, 2) - 8, 22, s, COLOR.BLACK, 2)
+  gfx.text(300 - gfx.textW(s, 2) - 8, 45, s, COLOR.BLACK, 2)
 end
 
 function drawKeys()
@@ -24,7 +24,7 @@ function drawKeys()
       gfx.fillRect(x + 2, y + 2, KW - 2, KH - 2, COLOR.BLACK)
       gfx.fillRect(x, y, KW - 2, KH - 2, COLOR.FACE)
       gfx.rect(x, y, KW, KH, COLOR.DGRAY)
-      gfx.text(x + KW / 2 - 5, y + 13, keys[r][c], COLOR.BLACK, 2)
+      gfx.text(x + KW / 2 - 5, y + 11, keys[r][c], COLOR.BLACK, 2)
     end
   end
 end

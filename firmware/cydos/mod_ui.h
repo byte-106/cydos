@@ -32,6 +32,24 @@ struct UiButton {
   void draw(bool pressed = false) const { drawBtnBevel(x, y, w, h, label, pressed, textColor); }
 };
 
+static void drawTitleBar(const char *t, bool showClose = true) {
+  gfx->fillRect(0, 0, SCREEN_W, TITLEBAR_H, C_TITLE);
+  gfx->setTextSize(2);
+  gfx->setTextColor(C_WHITE);
+  String s(t);
+  if (s.length() > 21) s = s.substring(0, 20) + "~";
+  gfx->setCursor(8, 7);
+  gfx->print(s);
+  if (showClose) {
+    gfx->fillRect(SCREEN_W - TITLEBAR_H, 2, TITLEBAR_H - 4, TITLEBAR_H - 4, C_FACE);
+    gfx->drawRect(SCREEN_W - TITLEBAR_H, 2, TITLEBAR_H - 4, TITLEBAR_H - 4, C_BLACK);
+    gfx->setTextSize(2);
+    gfx->setTextColor(C_RED);
+    gfx->setCursor(SCREEN_W - TITLEBAR_H + 7, 6);
+    gfx->print("X");
+  }
+}
+
 static void drawWindowFrame(const char *title, int16_t x, int16_t y, int16_t w, int16_t h, bool showClose = false) {
   gfx->fillRect(x, y, w, h, C_FACE);
   gfx->drawRect(x, y, w, h, C_SHADOW);
