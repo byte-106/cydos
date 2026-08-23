@@ -47,9 +47,9 @@ static void settingsBuildDoc(String &d) {
   sjSetValue(d, "brightness", String(kvGetInt("bl", 200)));
   sjSetValue(d, "invert", kvGetBool("inv", false) ? "true" : "false");
   String ssid = kvGet("wifi_ssid", "");
-  if (ssid.length()) sjSetValue(d, "wifi_ssid", "\"" + ssid + "\"");
+  sjSetValue(d, "wifi_ssid", "\"" + ssid + "\"");
   String pass = kvGet("wifi_pass", "");
-  if (pass.length()) sjSetValue(d, "wifi_pass", "\"" + pass + "\"");
+  sjSetValue(d, "wifi_pass", "\"" + pass + "\"");
   d = "{\n" + d + "\n}";
 }
 
