@@ -82,7 +82,7 @@ static void drawAppIcon(const AppEntry &app, int16_t x, int16_t y) {
   String label = app.name;
   if (label.length() > 13) label = label.substring(0, 12) + "~";
   gfx->setTextSize(1);
-  gfx->setTextColor(C_WHITE);
+  gfx->setTextColor(C_DESKTXT);
     int16_t lw = textWidth(label.c_str(), 1);
     gfx->setCursor(x + max((int)0, ((int)cellW - lw) / 2), y + iconS + 5);
   gfx->print(label);
@@ -153,7 +153,7 @@ static void drawStartMenu() {
   gfx->fillRect(MENU_X + 2, MENU_Y + 2, MENU_W - 4, 200, C_FACE);
   gfx->fillRect(MENU_X + 2, MENU_Y + 2, 30, 200, C_TITLE);
   gfx->setTextSize(2);
-  gfx->setTextColor(C_WHITE);
+  gfx->setTextColor(C_TITLETEXT);
   gfx->setCursor(MENU_X + 9, MENU_Y + 176);
   gfx->print("C");
   gfx->setTextSize(2);
@@ -307,7 +307,8 @@ static void toolAbout() {
   drawWindowFrame("About CYDOS", 20, 30, 280, 170, true);
   centerText(56, "CYDOS", C_TITLE, 4);
   centerText(94, "CYD Operating System v" CYDOS_VERSION, C_BLACK, 1);
-  centerText(108, "Lua-powered app platform", C_DGRAY, 1);
+  centerText(106, "Theme: Windows 1.0 style", C_DGRAY, 1);
+  centerText(118, "Lua-powered app platform", C_DGRAY, 1);
   centerText(120, "for the Cheap Yellow Display", C_DGRAY, 1);
   centerText(146, "Hold BOOT for power menu", C_DGRAY, 1);
   centerText(170, "Tap anywhere to close", C_DGRAY, 1);

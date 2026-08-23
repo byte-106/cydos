@@ -501,16 +501,16 @@ static void regAll(lua_State *L) {
   lua_setglobal(L, "gfx");
 
   lua_newtable(L);
-  static const struct { const char *n; int v; } cols[] = {
-    { "BLACK", 0x0000 }, { "WHITE", 0xFFFF }, { "RED", 0xF800 }, { "GREEN", 0x07E0 },
-    { "BLUE", 0x001F }, { "YELLOW", 0xFFE0 }, { "CYAN", 0x07FF }, { "MAGENTA", 0xF81F },
-    { "ORANGE", 0xFD20 }, { "GRAY", 0x8410 }, { "DGRAY", 0x4208 }, { "LGRAY", 0xC618 },
-    { "TEAL", 0x0410 }, { "NAVY", 0x0010 }, { "FACE", 0xC618 },
+  static const struct { const char *n; uint16_t *v; } cols[] = {
+    { "BLACK", &C_BLACK }, { "WHITE", &C_WHITE }, { "RED", &C_RED }, { "GREEN", &C_GREEN },
+    { "BLUE", &C_BLUE }, { "YELLOW", &C_YELLOW }, { "CYAN", &C_CYAN }, { "MAGENTA", &C_MAGENTA },
+    { "ORANGE", &C_ORANGE }, { "GRAY", &C_GRAY }, { "DGRAY", &C_DGRAY }, { "LGRAY", &C_LGRAY },
+    { "TEAL", &C_DESKTOP }, { "NAVY", &C_TITLE }, { "FACE", &C_FACE },
   };
   for (auto &cc : cols) {
-    lua_pushinteger(L, cc.v);
+    lua_pushinteger(L, *cc.v);
     lua_setglobal(L, cc.n);
-    lua_pushinteger(L, cc.v);
+    lua_pushinteger(L, *cc.v);
     lua_setfield(L, -2, cc.n);
   }
   lua_setglobal(L, "COLOR");

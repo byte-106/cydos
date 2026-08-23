@@ -1,9 +1,15 @@
 #pragma once
 #include "mod_config.h"
+#include "mod_theme.h"
 #include "mod_display.h"
 #include "mod_input.h"
 
 static void bevel(int16_t x, int16_t y, int16_t w, int16_t h, bool raised, bool face = true) {
+  if (THEME_FLAT) {
+    if (face) gfx->fillRect(x, y, w, h, C_FACE);
+    gfx->drawRect(x, y, w, h, C_TITLE);
+    return;
+  }
   if (face) gfx->fillRect(x, y, w, h, C_FACE);
   gfx->drawLine(x, y, x + w - 1, y, raised ? C_HILIGHT : C_SHADOW);
   gfx->drawLine(x, y, x, y + h - 1, raised ? C_HILIGHT : C_SHADOW);
@@ -35,7 +41,7 @@ struct UiButton {
 static void drawTitleBar(const char *t, bool showClose = true) {
   gfx->fillRect(0, 0, SCREEN_W, TITLEBAR_H, C_TITLE);
   gfx->setTextSize(2);
-  gfx->setTextColor(C_WHITE);
+  gfx->setTextColor(C_TITLETEXT);
   String s(t);
   if (s.length() > 21) s = s.substring(0, 20) + "~";
   gfx->setCursor(8, 7);
@@ -52,11 +58,30 @@ static void drawTitleBar(const char *t, bool showClose = true) {
 
 static void drawWindowFrame(const char *title, int16_t x, int16_t y, int16_t w, int16_t h, bool showClose = false) {
   gfx->fillRect(x, y, w, h, C_FACE);
+  if (THEME_FLAT) {
+    gfx->drawRect(x, y, w, h, C_TITLE);
+    gfx->drawRect(x + 2, y + 2, w - 4, h - 4, C_TITLE);
+    gfx->fillRect(x + 4, y + 4, w - 8, TITLEBAR_H - 6, C_TITLE);
+    gfx->setTextSize(2);
+    gfx->setTextColor(C_TITLETEXT);
+    gfx->setCursor(x + 10, y + 7);
+    gfx->print(title);
+    if (showClose) {
+      int16_t cx = x + w - TITLEBAR_H - 5;
+      gfx->fillRect(cx, y + 6, TITLEBAR_H - 10, TITLEBAR_H - 10, C_FACE);
+      gfx->drawRect(cx, y + 6, TITLEBAR_H - 10, TITLEBAR_H - 10, C_TITLE);
+      gfx->setTextSize(2);
+      gfx->setTextColor(C_BLACK);
+      gfx->setCursor(cx + (TITLEBAR_H - 10 - 12) / 2, y + 9);
+      gfx->print("X");
+    }
+    return;
+  }
   gfx->drawRect(x, y, w, h, C_SHADOW);
   gfx->drawRect(x + 1, y + 1, w - 2, h - 2, C_WHITE);
   gfx->fillRect(x + 3, y + 3, w - 6, TITLEBAR_H - 4, C_TITLE);
   gfx->setTextSize(2);
-  gfx->setTextColor(C_WHITE);
+  gfx->setTextColor(C_TITLETEXT);
   gfx->setCursor(x + 8, y + 7);
   gfx->print(title);
   if (showClose) {
@@ -75,6 +100,10 @@ bool closeButtonHit(int16_t wx, int16_t wy, int16_t ww, int16_t px, int16_t py) 
 
 static void drawWell(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t inner) {
   gfx->fillRect(x, y, w, h, inner);
+  if (THEME_FLAT) {
+    gfx->drawRect(x, y, w, h, C_TITLE);
+    return;
+  }
   gfx->drawLine(x, y, x + w - 1, y, C_SHADOW);
   gfx->drawLine(x, y, x, y + h - 1, C_SHADOW);
   gfx->drawLine(x + w - 1, y, x + w - 1, y + h - 1, C_HILIGHT);
@@ -84,7 +113,10 @@ static void drawWell(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t inner)
 static void drawProgress(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t pct, uint16_t color) {
   drawWell(x, y, w, h, C_FACE);
   int16_t iw = (w - 4) * pct / 100;
-  if (iw > 0) {
-    for (int16_t i = 0; i < iw; i += 4) gfx->fillRect(x + 2 + i, y + 2, min(3, iw - i), h - 4, color);
+  if (iw <= 0) return;
+  if (THEME_FLAT) {
+    gfx->fillRect(x + 2, y + 2, iw, h - 4, color);
+    return;
   }
+  for (int16_t i = 0; i < iw; i += 4) gfx->fillRect(x + 2 + i, y + 2, min(3, iw - i), h - 4, color);
 }

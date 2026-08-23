@@ -1,4 +1,5 @@
 #include "mod_config.h"
+#include "mod_theme.h"
 #include "mod_display.h"
 #include "mod_kv.h"
 #include "mod_input.h"
@@ -114,6 +115,7 @@ static void setupDone() {
 }
 
 static void uiTask(void *) {
+  applyTheme(CYDOS_THEME);
   displayBegin();
   applyInvert();
   splashFrame(10, "storage");

@@ -3,6 +3,7 @@
 
 #define CYDOS_NAME "CYDOS"
 #define CYDOS_VERSION "1.0.0"
+#define CYDOS_THEME 1
 
 #define PIN_TFT_BL   21
 #define PIN_TFT_DC   2
@@ -35,26 +36,6 @@
 #define SCREEN_H 240
 #define TASKBAR_H 44
 #define TITLEBAR_H 28
-
-#define C_BLACK      0x0000
-#define C_WHITE      0xFFFF
-#define C_RED        0xF800
-#define C_GREEN      0x07E0
-#define C_BLUE       0x001F
-#define C_YELLOW     0xFFE0
-#define C_CYAN       0x07FF
-#define C_MAGENTA    0xF81F
-#define C_ORANGE     0xFD20
-#define C_GRAY       0x8410
-#define C_DGRAY      0x4208
-#define C_LGRAY      0xC618
-#define C_DESKTOP    0x0410
-#define C_TITLE      0x0010
-#define C_FACE       0xC618
-#define C_SHADOW     0x8410
-#define C_HILIGHT    0xFFFF
-#define C_WELL       0x86B0
-#define C_SELLINE    0x399A
 
 static inline uint16_t rgb565(uint8_t r, uint8_t g, uint8_t b) {
   return ((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3);

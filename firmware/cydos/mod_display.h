@@ -60,7 +60,7 @@ static void splashFrame(uint16_t pct, const char *label) {
     gfx->drawRect(29, 39, 262, 162, C_SHADOW);
     gfx->fillRect(31, 41, 258, 24, C_TITLE);
     gfx->setTextSize(2);
-    gfx->setTextColor(C_WHITE);
+    gfx->setTextColor(C_TITLETEXT);
     gfx->setCursor(40, 46);
     gfx->print("CYDOS");
     gfx->fillRect(258, 44, 18, 16, C_FACE);
