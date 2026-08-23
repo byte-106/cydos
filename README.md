@@ -119,3 +119,8 @@ the Windows of the same era:
 ## Making apps
 
 See [HOWTOMAKEAPP.md](HOWTOMAKEAPP.md) for the full Lua API and a template.
+
+## License
+
+[MIT with one extra rule](LICENSE): take it, do what you want with it -
+**but you must say it is built on CYDOS**.
