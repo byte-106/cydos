@@ -3,6 +3,8 @@
 #include <vector>
 #include <WString.h>
 
+void settingsNoteChange();
+
 struct KvPair {
   String k;
   String v;
@@ -47,11 +49,13 @@ void kvSet(const char *key, const String &val) {
       if (p.v == val) return;
       p.v = val;
       kvCommit();
+      settingsNoteChange();
       return;
     }
   }
   kvStore.push_back({ String(key), val });
   kvCommit();
+  settingsNoteChange();
 }
 
 int kvGetInt(const char *key, int def) {

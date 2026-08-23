@@ -7,6 +7,7 @@
 #include "mod_kbd.h"
 #include "mod_net.h"
 #include "mod_luart.h"
+#include "mod_settings.h"
 #include "mod_shell.h"
 #include "sdpack.h"
 
@@ -93,7 +94,7 @@ static void setupInstall(bool showIntro) {
   }
   File m = SD.open(SD_MARKER, FILE_WRITE);
   if (m) {
-    m.printf("%d/%d", ok, EMBED_COUNT);
+    m.print(SDPACK_VERSION);
     m.close();
   }
   wizText(32, 186, ("Installed " + String(ok) + "/" + String(EMBED_COUNT) + " files.").c_str(), C_GREEN, 1);
@@ -118,7 +119,6 @@ static void uiTask(void *) {
   splashFrame(10, "storage");
   LittleFS.begin(true);
   kvLoadAll();
-  sysApplySaved();
 
   splashFrame(28, "touch screen");
   inputBegin();
@@ -143,8 +143,15 @@ static void uiTask(void *) {
   }
 
   splashFrame(62, "scanning apps");
+  settingsLoadApply();
+  sysApplySaved();
   bool forcedSetup = digitalRead(PIN_BTN_BOOT) == LOW;
-  bool freshCard = !SD.exists(SD_MARKER);
+  bool freshCard = true;
+  if (SD.exists(SD_MARKER)) {
+    File m = SD.open(SD_MARKER, "r");
+    if (m && m.readString() == SDPACK_VERSION) freshCard = false;
+    if (m) m.close();
+  }
   if (forcedSetup) {
     setupInstall(false);
     delay(400);

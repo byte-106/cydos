@@ -95,6 +95,34 @@ the system:
 `read(name)` `write(name,data)` `append(name,data)` `exists(name)`
 `delete(name)` `ls()` -> table of names. Missing reads return nil.
 
+### JSON - `json.*`
+
+Every app gets a `json` global for saving structured config in its sandbox:
+
+```lua
+-- load with a default
+local cfg = {best = 0, color = "blue"}
+local raw = fs.read("config.json")
+if raw then
+  local ok, saved = pcall(json.decode, raw)
+  if ok and type(saved) == "table" then
+    for k, v in pairs(saved) do cfg[k] = v end
+  end
+end
+
+-- save
+cfg.best = 42
+fs.write("config.json", json.encode(cfg))
+```
+
+`json.encode(t)` -> string, `json.decode(s)` -> table (objects, arrays,
+strings, numbers, booleans, null). Users can open these files from the
+Files app or a card reader to peek at or hand-edit app data.
+
+The system keeps its own human-editable settings file too:
+`/data/Settings/settings.json` (brightness, LED color, wifi ssid...).
+It is applied on boot and re-synced whenever you change settings.
+
 ### System - `sys.*`
 
 ```lua
@@ -132,6 +160,7 @@ no `io`, `os`, `debug` or `package`. Use `fs.*`, `sys.*`, `millis()` instead.
 - The screen is 320x240, rotated landscape, touched with fingers: make hit
   targets at least 40 px.
 - Redraw only what changed inside `loop`; full-screen redraws cost ~40 ms.
-- Store high scores with `sys.set("myapp_best", tostring(score))`.
+- Store high scores in your own `config.json` with the `json` global (see
+  JSON section above).
 - Test on the device often: the Editor app can edit `/apps/.../app.lua`
   directly on the card, then relaunch.

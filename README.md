@@ -33,7 +33,12 @@ inverted colors otherwise.
   name) and `icon.jpg` (48x48) are optional.
 - On-screen keyboard for dialogs
 - WiFi + NTP time sync (configured on-device via Settings)
-- Settings persisted in flash (brightness, LED color, invert)
+- Settings persisted in flash, mirrored to a human-editable
+  `/data/Settings/settings.json` on the card (applied on boot). An optional
+  `"wifi_pass"` line is imported into private flash once and then removed
+  from the card - passwords never stay on removable storage.
+- Apps save their own JSON config in `/data/<AppName>/` via the `json`
+  global (high scores, brush colors, ...)
 
 ## Flashing
 

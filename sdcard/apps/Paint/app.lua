@@ -28,6 +28,11 @@ end
 function init()
   gfx.cls(COLOR.WHITE)
   curCol = COLOR.BLACK
+  local raw = fs.read("paint.json")
+  if raw then
+    local ok, cfg = pcall(json.decode, raw)
+    if ok and type(cfg) == "table" then curCol = tonumber(cfg.color) or COLOR.BLACK end
+  end
   lastX, lastY = nil, nil
   drawBar()
 end
@@ -43,6 +48,7 @@ function onTouch(t, x, y)
       end
       if idx >= 1 and idx <= #palette then
         curCol = palette[idx]
+        fs.write("paint.json", json.encode({color = curCol}))
         drawBar()
         beep(1000, 20)
       end

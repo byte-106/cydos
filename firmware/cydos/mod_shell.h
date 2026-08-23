@@ -220,6 +220,7 @@ static void appEventLoop() {
     luaCallLoop(dt);
     netTick();
     pollPowerButton();
+    settingsMaybeSync();
     shellDrawAppChrome();
     vTaskDelay(3);
   }
@@ -840,6 +841,7 @@ static void desktopLoop() {
       lastClock = millis();
       drawTrayClock();
     }
+    settingsMaybeSync();
     vTaskDelay(8);
   }
 }

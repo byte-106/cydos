@@ -4,7 +4,14 @@ local OX, OY = 4, 4
 local CTRL_Y = 164
 
 local snake, dir, food, score, alive, stepMs, acc
-local best = tonumber(sys.get("snake_best") or "0") or 0
+local best = 0
+do
+  local raw = fs.read("snake.json")
+  if raw then
+    local ok, cfg = pcall(json.decode, raw)
+    if ok and type(cfg) == "table" then best = tonumber(cfg.best) or 0 end
+  end
+end
 
 local btns = {
   { 132, 172, "L" }, { 196, 172, "R" },
@@ -50,7 +57,7 @@ function gameOver()
   alive = false
   if score > best then
     best = score
-    sys.set("snake_best", tostring(best))
+    fs.write("snake.json", json.encode({best = best}))
   end
   gfx.fillRect(60, 60, 200, 70, COLOR.FACE)
   gfx.rect(60, 60, 200, 70, COLOR.DGRAY)

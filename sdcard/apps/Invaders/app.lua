@@ -142,7 +142,7 @@ function loop(dt)
       if lives <= 0 then
         over = true
         msg = "GAME OVER"
-        sys.set("invaders_best", tostring(score))
+        fs.write("invaders.json", json.encode({best = score}))
         draw()
         return
       end

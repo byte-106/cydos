@@ -642,6 +642,120 @@ static int luaPanic(lua_State *L) {
   return 0;
 }
 
+static const char *jsonLua = R"JSONLUA(
+local json = {}
+local ESC = {['"'] = '\\"', ['\\'] = '\\\\', ['\n'] = '\\n', ['\r'] = '\\r', ['\t'] = '\\t', ['\b'] = '\\b', ['\f'] = '\\f'}
+local function enc(v)
+  local t = type(v)
+  if t == "string" then
+    return '"' .. v:gsub('[%c"\\]', function(c) return ESC[c] or string.format('\\u%04x', c:byte()) end) .. '"'
+  elseif t == "number" then
+    if v == math.floor(v) and math.abs(v) < 2 ^ 53 then return string.format('%d', v) end
+    return tostring(v)
+  elseif t == "boolean" then
+    return tostring(v)
+  elseif t == "table" then
+    local n = 0
+    for _ in pairs(v) do n = n + 1 end
+    if n == #v and #v > 0 or (n == 0 and #v == 0 and rawequal(next(v), nil)) then
+      local p = {}
+      for i = 1, #v do p[i] = enc(v[i]) end
+      return "[" .. table.concat(p, ",") .. "]"
+    end
+    local p = {}
+    for k, val in pairs(v) do
+      if type(k) ~= "string" then error("object keys must be strings") end
+      p[#p + 1] = enc(k) .. ":" .. enc(val)
+    end
+    return "{" .. table.concat(p, ",") .. "}"
+  elseif t == "nil" then
+    return "null"
+  end
+  error("cannot encode " .. t)
+end
+function json.encode(v) return enc(v) end
+
+local function skip(s, i)
+  while i <= #s and s:sub(i, i):match("%s") do i = i + 1 end
+  return i
+end
+
+local NUMPAT = "^%-?%d+%.?%d*[eE]?[+-]?%d*"
+local function dec(s, i)
+  i = skip(s, i)
+  local c = s:sub(i, i)
+  if c == "{" then
+    local o = {}
+    i = skip(s, i + 1)
+    if s:sub(i, i) == "}" then return o, i + 1 end
+    while true do
+      local k, j = dec(s, i)
+      if type(k) ~= "string" then error("bad object key") end
+      j = skip(s, j)
+      if s:sub(j, j) ~= ":" then error("expected :") end
+      local v, nj = dec(s, j + 1)
+      o[k] = v
+      i = skip(s, nj)
+      local d = s:sub(i, i)
+      if d == "," then i = skip(s, i + 1)
+      elseif d == "}" then return o, i + 1
+      else error("bad object") end
+    end
+  elseif c == "[" then
+    local a = {}
+    i = skip(s, i + 1)
+    if s:sub(i, i) == "]" then return a, i + 1 end
+    while true do
+      local v, ni = dec(s, i)
+      a[#a + 1] = v
+      i = skip(s, ni)
+      local d = s:sub(i, i)
+      if d == "," then i = skip(s, i + 1)
+      elseif d == "]" then return a, i + 1
+      else error("bad array") end
+    end
+  elseif c == '"' then
+    local out = {}
+    local j = i + 1
+    while true do
+      local ch = s:sub(j, j)
+      if ch == "" then error("unterminated string") end
+      if ch == '"' then break end
+      if ch == '\\' then
+        local nx = s:sub(j + 1, j + 1)
+        if nx == 'u' then
+          local h = tonumber(s:sub(j + 2, j + 5), 16) or 63
+          out[#out + 1] = h < 128 and string.char(h) or "?"
+          j = j + 6
+        else
+          local m = {n = "\n", t = "\t", r = "\r", b = "\b", f = "\f"}
+          out[#out + 1] = m[nx] or nx
+          j = j + 2
+        end
+      else
+        out[#out + 1] = ch
+        j = j + 1
+      end
+    end
+    return table.concat(out), j + 1
+  elseif c == "t" then return true, i + 4
+  elseif c == "f" then return false, i + 5
+  elseif c == "n" then return nil, i + 4
+  else
+    local tail = s:match(NUMPAT, i)
+    local num = tonumber(tail)
+    if num == nil then error("bad value at " .. i) end
+    return num, i + #tail
+  end
+end
+function json.decode(s)
+  if type(s) ~= "string" then error("decode expects a string") end
+  local v = dec(s, 1)
+  return v
+end
+_G.json = json
+)JSONLUA";
+
 static bool startLuaApp(const String &dir, const String &displayName) {
   String base = dir.endsWith("/") ? dir : dir + "/";
   String scriptPath = base + "app.lua";
@@ -666,6 +780,11 @@ static bool startLuaApp(const String &dir, const String &displayName) {
   lua_pushboolean(L, 1);
   cydosOpenLibs(L);
   regAll(L);
+  if (luaL_dostring(L, jsonLua) != 0) {
+    const char *e = lua_tostring(L, -1);
+    Serial.printf("[json] load failed: %s\n", e ? e : "?");
+    lua_pop(L, 1);
+  }
   lua_sethook(L, hookWatchdog, LUA_MASKCOUNT, 100000);
 
   int lr = lua_load(L, luaFileReader, &f, "@app.lua", NULL);

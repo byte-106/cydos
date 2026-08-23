@@ -111,7 +111,7 @@ function loop(dt)
   if #bricks == 0 then
     won = true
     msg = "YOU CLEARED IT!"
-    sys.set("breakout_best", tostring(score))
+    fs.write("breakout.json", json.encode({best = score}))
     showEnd()
     return
   end

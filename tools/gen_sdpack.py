@@ -1,4 +1,5 @@
 import os
+import hashlib
 
 BASE = "/run/media/ymk/new 2T/other/backups/arch_home_2026_aug_23(before omrachy)/other/progects/cydos"
 APPS = os.path.join(BASE, "sdcard/apps")
@@ -14,8 +15,15 @@ for name in sorted(os.listdir(APPS)):
         if os.path.exists(p):
             entries.append((f"/apps/{name}/{f}", open(p, "rb").read()))
 
+digest = hashlib.sha256()
+for path, data in entries:
+    digest.update(path.encode())
+    digest.update(data)
+version = digest.hexdigest()[:8]
+
 with open(OUT, "w") as h:
     h.write("#pragma once\n#include <pgmspace.h>\n\n")
+    h.write(f'#define SDPACK_VERSION "{version}"\n\n')
     h.write("struct EmbedFile { const char *path; const uint8_t *data; uint32_t len; };\n\n")
     for i, (path, data) in enumerate(entries):
         var = f"sdfile{i}"
@@ -30,4 +38,4 @@ with open(OUT, "w") as h:
     h.write("};\n")
     h.write(f"#define EMBED_COUNT {len(entries)}\n")
 
-print(f"packed {len(entries)} files ({sum(len(d) for _, d in entries)} bytes)")
+print(f"packed {len(entries)} files ({sum(len(d) for _, d in entries)} bytes) version {version}")
