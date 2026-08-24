@@ -225,18 +225,17 @@ static void runApp(const AppEntry &app) {
 }
 
 static void powerMenu() {
-  drawWindowFrame("Power", 60, 30, 200, 186, true);
-  UiButton sleepB(80, 64, 160, 38, "Sleep"), restB(80, 108, 160, 38, "Restart"), cancelB(80, 152, 160, 38, "Cancel");
-  sleepB.draw();
+  drawWindowFrame("Power", 60, 40, 200, 150, true);
+  UiButton offB(80, 84, 160, 38, "Power off"), restB(80, 130, 160, 38, "Restart");
+  offB.draw();
   restB.draw();
-  cancelB.draw();
   while (true) {
     touchPoll();
     TouchEvent e;
     while (tePop(e)) {
       if (e.type != TE_PRESS) continue;
       teWaitRelease();
-      if (sleepB.hit(e.x, e.y)) {
+      if (offB.hit(e.x, e.y)) {
         sysSleepNow();
         return;
       }
@@ -244,7 +243,7 @@ static void powerMenu() {
         sysReboot();
         return;
       }
-      if (cancelB.hit(e.x, e.y) || closeButtonHit(60, 30, 200, e.x, e.y)) return;
+      if (closeButtonHit(60, 40, 200, e.x, e.y)) return;
     }
     vTaskDelay(5);
   }
@@ -305,10 +304,10 @@ static void showMessageBox(const char *title, const String &msg) {
 static void toolAbout() {
   gfx->fillScreen(C_DESKTOP);
   drawWindowFrame("About CYDOS", 20, 30, 280, 170, true);
-  centerText(56, "CYDOS", C_TITLE, 4);
-  centerText(94, "CYD Operating System v" CYDOS_VERSION, C_BLACK, 1);
-  centerText(106, "Theme: Windows 1.0 style", C_DGRAY, 1);
-  centerText(118, "Lua-powered app platform", C_DGRAY, 1);
+  centerText(70, "CYDOS", C_TITLE, 4);
+  centerText(106, "CYD Operating System v" CYDOS_VERSION, C_BLACK, 1);
+  centerText(118, "Theme: Windows 1.0 style", C_DGRAY, 1);
+  centerText(130, "Lua-powered app platform", C_DGRAY, 1);
   centerText(120, "for the Cheap Yellow Display", C_DGRAY, 1);
   centerText(146, "Hold BOOT for power menu", C_DGRAY, 1);
   centerText(170, "Tap anywhere to close", C_DGRAY, 1);

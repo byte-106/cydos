@@ -70,28 +70,34 @@ bool kbInput(const char *title, String &out, bool mask, int maxLen = 48) {
   kbNumPage = false;
   kbY0 = 132;
   bool redrawKb = true;
+  gfx->fillRect(0, 0, SCREEN_W, kbY0 - 6, C_DESKTOP);
+  drawWindowFrame(title, 4, 8, 312, 84);
+  drawWell(12, 44, 180, 32, C_WHITE);
+  UiButton okBtn(204, 42, 52, 34, "OK");
+  UiButton noBtn(262, 42, 46, 34, "X");
+  okBtn.draw();
+  noBtn.draw();
+  String lastDisp = "\x01";
   while (true) {
     if (redrawKb) {
       kbDraw();
       redrawKb = false;
     }
-    gfx->fillRect(0, 0, SCREEN_W, kbY0 - 6, C_DESKTOP);
-    drawWindowFrame(title, 4, 8, 312, 84);
-    drawWell(12, 44, 180, 32, C_WHITE);
-    gfx->setTextSize(2);
-    gfx->setTextColor(C_BLACK);
     String disp = mask ? "" : out;
     if (mask) {
       int dots = min((int)out.length(), 14);
       for (int i = 0; i < dots; i++) disp += "*";
     }
     if ((int)disp.length() > 13) disp = disp.substring(disp.length() - 13);
-    gfx->setCursor(16, 54);
-    gfx->print(disp + "_");
-    UiButton okBtn(204, 42, 52, 34, "OK");
-    UiButton noBtn(262, 42, 46, 34, "X");
-    okBtn.draw();
-    noBtn.draw();
+    disp += "_";
+    if (disp != lastDisp) {
+      lastDisp = disp;
+      gfx->fillRect(14, 46, 176, 28, C_WHITE);
+      gfx->setTextSize(2);
+      gfx->setTextColor(C_BLACK);
+      gfx->setCursor(16, 54);
+      gfx->print(disp);
+    }
     touchPoll();
     TouchEvent e;
     while (tePop(e)) {

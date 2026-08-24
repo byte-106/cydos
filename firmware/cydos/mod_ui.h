@@ -95,7 +95,7 @@ static void drawWindowFrame(const char *title, int16_t x, int16_t y, int16_t w, 
 }
 
 bool closeButtonHit(int16_t wx, int16_t wy, int16_t ww, int16_t px, int16_t py) {
-  return inRect(px, py, wx + ww - TITLEBAR_H - 5, wy + 5, TITLEBAR_H - 6, TITLEBAR_H - 6);
+  return inRect(px, py, wx + ww - TITLEBAR_H - 5, wy + 2, TITLEBAR_H, TITLEBAR_H);
 }
 
 static void drawWell(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t inner) {
