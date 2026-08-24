@@ -3,7 +3,7 @@
 
 #define CYDOS_NAME "CYDOS"
 #define CYDOS_VERSION "1.0.0"
-#define CYDOS_THEME 1
+#define CYDOS_THEME 2
 
 #define PIN_TFT_BL   21
 #define PIN_TFT_DC   2

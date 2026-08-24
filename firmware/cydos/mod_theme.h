@@ -26,10 +26,21 @@ static uint16_t C_DESKTXT = 0xFFFF;
 
 static int THEME_VER = CYDOS_THEME;
 static bool THEME_FLAT = false;
+static bool THEME_CENTER_TITLE = false;
+
+static const char *themeName(int ver) {
+  switch (ver) {
+    case 1: return "Windows 1.0 style";
+    case 2: return "Windows 2.0 style";
+    case 3: return "Windows 3.x style";
+    default: return "Windows 95 style";
+  }
+}
 
 static void applyTheme(int ver) {
   THEME_VER = ver;
   THEME_FLAT = (ver < 3);
+  THEME_CENTER_TITLE = (ver >= 2);
   if (ver == 1) {
     C_DESKTOP = 0x57EA;
     C_TITLE = 0xFFEA;
@@ -41,15 +52,15 @@ static void applyTheme(int ver) {
     C_WELL = 0xFFFF;
     C_SELLINE = 0xFAAA;
   } else if (ver == 2) {
-    C_DESKTOP = 0x57EA;
-    C_TITLE = 0xFFEA;
-    C_TITLETEXT = 0x0000;
+    C_DESKTOP = 0x57FF;
+    C_TITLE = 0x557F;
+    C_TITLETEXT = 0xFFFF;
     C_DESKTXT = 0x0000;
     C_FACE = 0xFFFF;
     C_SHADOW = 0x0000;
     C_HILIGHT = 0x0000;
     C_WELL = 0xFFFF;
-    C_SELLINE = 0xFAAA;
+    C_SELLINE = 0x557F;
   } else if (ver == 3) {
     C_DESKTOP = 0x0410;
     C_TITLE = 0x0010;

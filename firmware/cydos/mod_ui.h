@@ -44,8 +44,16 @@ static void drawTitleBar(const char *t, bool showClose = true) {
   gfx->setTextColor(C_TITLETEXT);
   String s(t);
   if (s.length() > 21) s = s.substring(0, 20) + "~";
-  gfx->setCursor(8, 7);
-  gfx->print(s);
+  int16_t x1, y1;
+  uint16_t tw, th;
+  gfx->getTextBounds(s, 0, 0, &x1, &y1, &tw, &th);
+  if (THEME_CENTER_TITLE) {
+    gfx->setCursor((SCREEN_W - tw) / 2, 7);
+    gfx->print(s);
+  } else {
+    gfx->setCursor(8, 7);
+    gfx->print(s);
+  }
   if (showClose) {
     gfx->fillRect(SCREEN_W - TITLEBAR_H, 2, TITLEBAR_H - 4, TITLEBAR_H - 4, C_FACE);
     gfx->drawRect(SCREEN_W - TITLEBAR_H, 2, TITLEBAR_H - 4, TITLEBAR_H - 4, C_BLACK);
@@ -64,8 +72,18 @@ static void drawWindowFrame(const char *title, int16_t x, int16_t y, int16_t w, 
     gfx->fillRect(x + 4, y + 4, w - 8, TITLEBAR_H - 6, C_TITLE);
     gfx->setTextSize(2);
     gfx->setTextColor(C_TITLETEXT);
-    gfx->setCursor(x + 10, y + 7);
-    gfx->print(title);
+    if (THEME_CENTER_TITLE) {
+      int16_t x1, y1;
+      uint16_t tw, th;
+      String s(title);
+      if (s.length() > 21) s = s.substring(0, 20) + "~";
+      gfx->getTextBounds(s, 0, 0, &x1, &y1, &tw, &th);
+      gfx->setCursor(x + (w - tw) / 2, y + 7);
+      gfx->print(s);
+    } else {
+      gfx->setCursor(x + 10, y + 7);
+      gfx->print(title);
+    }
     if (showClose) {
       int16_t cx = x + w - TITLEBAR_H - 5;
       gfx->fillRect(cx, y + 6, TITLEBAR_H - 10, TITLEBAR_H - 10, C_FACE);

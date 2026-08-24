@@ -306,7 +306,7 @@ static void toolAbout() {
   drawWindowFrame("About CYDOS", 20, 30, 280, 170, true);
   centerText(70, "CYDOS", C_TITLE, 4);
   centerText(106, "CYD Operating System v" CYDOS_VERSION, C_BLACK, 1);
-  centerText(118, "Theme: Windows 1.0 style", C_DGRAY, 1);
+  centerText(118, themeName(THEME_VER), C_DGRAY, 1);
   centerText(130, "Lua-powered app platform", C_DGRAY, 1);
   centerText(120, "for the Cheap Yellow Display", C_DGRAY, 1);
   centerText(146, "Hold BOOT for power menu", C_DGRAY, 1);
